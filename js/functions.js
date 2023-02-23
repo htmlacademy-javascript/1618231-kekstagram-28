@@ -1,20 +1,9 @@
-const checkLengthString = (str, len) => {
-  if (str.length <= len) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
+const checkLengthString = (str, len) => str.length <= len;
 
 const isPalindrome = (str) => {
   const normStr = str.toLowerCase().trim().replaceAll(' ', '');
   const reversStr = normStr.split('').reverse().join('');
-  if (normStr === reversStr) {
-    return true;
-  } else {
-    return false;
-  }
+  return normStr === reversStr;
 };
 
 const getNambersFromString = (str) => {
@@ -24,7 +13,7 @@ const getNambersFromString = (str) => {
     if (!isNaN(normStr[i])) {
       result += normStr[i];
     }
-  };
+  }
   if (result.length === 0) {
     return NaN;
   } else {
@@ -39,7 +28,7 @@ const getString = (str, len, addStr) => {
     return str;
   }
   const itter = Math.floor(subStrLength / addStr.length);
-  for ( let i = 1; i <= itter; i++) {
+  for (let i = 1; i <= itter; i++) {
     subStr = subStr + addStr;
   }
   const restStrLength = subStrLength - itter * addStr.length;
