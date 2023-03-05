@@ -36,3 +36,5 @@ const getString = (str, len, addStr) => {
   subStr = restStr + subStr;
   return subStr + str;
 };
+
+export {getNambersFromString};
