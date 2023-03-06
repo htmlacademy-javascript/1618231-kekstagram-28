@@ -129,3 +129,5 @@ const getPhotosArray = () => {
   }
   return photoCollection;
 };
+
+export {getPhotosArray};
