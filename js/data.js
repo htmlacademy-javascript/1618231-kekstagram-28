@@ -130,4 +130,6 @@ const getPhotosArray = () => {
   return photoCollection;
 };
 
-export {getPhotosArray};
+const pictures = getPhotosArray();
+
+export {pictures};
