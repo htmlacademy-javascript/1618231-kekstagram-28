@@ -37,4 +37,13 @@ const getString = (str, len, addStr) => {
   return subStr + str;
 };
 
-export {getNambersFromString};
+const getRandomInt = (min, max) => {
+  min = Math.ceil(Math.abs(min));
+  max = Math.floor(Math.abs(max));
+  if (min > max) {
+    [min, max] = [max, min];
+  }
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+export {getNambersFromString, getRandomInt, checkLengthString, isPalindrome, getString};
