@@ -2,17 +2,22 @@ import {pictures} from './data.js';
 
 const pisturesListElement = document.querySelector('.pictures');
 
+const templateFragment = document.querySelector('#picture').content;
+const template = templateFragment.querySelector('.picture');
+
+const getPicturesElement = ({id, url, likes, comments}) => {
+  const element = template.cloneNode(true);
+  element.querySelector('.picture__img').src = url;
+  element.querySelector('.picture__comments').textContent = comments.length;
+  element.querySelector('.picture__likes').textContent = likes;
+  element.setAttribute('data-picture', `${id}`);
+  return element;
+};
+
 const getPictureList = (images) => {
-  const stringOfElements = images.map(({id, url, likes, comments}) => `
-  <a href="#" class="picture" data-picture="${id}">
-  <img class="picture__img" src="${url}" width="182" height="182" alt="Случайная фотография">
-  <p class="picture__info">
-    <span class="picture__comments">${comments.length}</span>
-    <span class="picture__likes">${likes}</span>
-  </p>
-  </a>
-  `).join('');
-  pisturesListElement.insertAdjacentHTML('afterbegin', stringOfElements);
+  images.forEach((image) => {
+    pisturesListElement.append(getPicturesElement(image));
+  });
 };
 
 getPictureList(pictures);
