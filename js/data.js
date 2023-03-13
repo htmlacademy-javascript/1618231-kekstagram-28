@@ -52,7 +52,7 @@ const NAMES = [
   'Джагер',
   'Дядя Ваня',
   'Юнонна',
-  'Дмитрий М. Нос',
+  'Дмитрий М.Нос',
   'Пенсионер',
 ];
 
@@ -89,7 +89,7 @@ const getDescriptionForPhotos = () => {
   return DESCRIPTIONS[index - 1];
 };
 
-const getUrlAvatar = () => `img/${getRandomInt(MIN_AVATAR, MAX_AVATAR)}.svg`;
+const getUrlAvatar = () => `img/avatar-${getRandomInt(MIN_AVATAR, MAX_AVATAR)}.svg`;
 
 const getMessages = () => {
   const index = getRandomInt(MIN_LENGTH, MESSAGES.length - 1);
@@ -130,6 +130,6 @@ const getPhotosArray = () => {
   return photoCollection;
 };
 
-const pictures = getPhotosArray();
+const picturesData = getPhotosArray();
 
-export {pictures};
+export {picturesData};

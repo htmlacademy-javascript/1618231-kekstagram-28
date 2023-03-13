@@ -1,4 +1,4 @@
-import {pictures} from './data.js';
+import {picturesData} from './data.js';
 
 const pisturesListElement = document.querySelector('.pictures');
 
@@ -22,4 +22,4 @@ const getPictureList = (images) => {
   pisturesListElement.append(fragment);
 };
 
-getPictureList(pictures);
+getPictureList(picturesData);
