@@ -1,5 +1,26 @@
-import { picturesData } from './data.js';
+import { picturesData } from './pictures.js';
 import { bigPictureSection } from './event-pictures.js';
+
+let NUMBER_COMMENTS = 0;
+const STEP = 5;
+const commentsLoaderBtn = document.querySelector('.comments-loader');
+
+const getCommentsCountBlock = (comments) => {
+  const socialCommentsItems = bigPictureSection.querySelectorAll('.social__comment');
+  const socialCommentCount = bigPictureSection.querySelector('.social__comment-count');
+  socialCommentCount.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+  const commentsCountBlock = document.createRange().createContextualFragment(`
+  <div class="social__comment-count">
+    ${socialCommentsItems.length} из <span class="comments-count">${comments.length}</span> комментариев
+  </div>
+  `);
+  fragment.append(commentsCountBlock);
+  socialCommentCount.append(fragment);
+  if (socialCommentsItems.length === comments.length) {
+    commentsLoaderBtn.classList.add('hidden');
+  }
+};
 
 const getCommentsList = (comments) => {
   const fragment = document.createDocumentFragment();
@@ -20,20 +41,34 @@ const getCommentsList = (comments) => {
 };
 
 const showBigPicturePreview = (element) => {
+  NUMBER_COMMENTS = 5;
+  commentsLoaderBtn.classList.remove('hidden');
   const bigPictureImage = bigPictureSection.querySelector('.big-picture__img img');
   const likesCount = bigPictureSection.querySelector('.likes-count');
-  const commentsCount = bigPictureSection.querySelector('.comments-count');
   const socialCommentsList = bigPictureSection.querySelector('.social__comments');
   const imageData = picturesData.find((item) => item.id === parseInt(element.dataset.picture, 10));
   const {url, likes, comments} = imageData;
+  const commentsOnPage = comments.slice(0, NUMBER_COMMENTS);
   socialCommentsList.innerHTML = '';
   bigPictureImage.src = url;
   likesCount.textContent = likes;
-  commentsCount.textContent = comments.length;
-  socialCommentsList.append(getCommentsList(comments));
-
-  bigPictureSection.querySelector('.social__comment-count').classList.add('hidden');
-  bigPictureSection.querySelector('.comments-loader').classList.add('hidden');
+  socialCommentsList.append(getCommentsList(commentsOnPage));
+  getCommentsCountBlock(comments);
 };
+
+const addCommentsOnPage = (evt) => {
+  const element = evt.target.closest('.big-picture');
+  const imagePath = element.querySelector('.big-picture__img img').src;
+  const socialCommentsList = bigPictureSection.querySelector('.social__comments');
+  const imageData = picturesData.find((item) => imagePath.includes(item.url));
+  const {comments} = imageData;
+  NUMBER_COMMENTS += STEP;
+  const commentsOnPage = comments.slice(0, NUMBER_COMMENTS);
+  socialCommentsList.innerHTML = '';
+  socialCommentsList.append(getCommentsList(commentsOnPage));
+  getCommentsCountBlock(comments);
+};
+
+commentsLoaderBtn.addEventListener('click', addCommentsOnPage);
 
 export {showBigPicturePreview};

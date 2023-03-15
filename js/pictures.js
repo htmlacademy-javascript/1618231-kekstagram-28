@@ -1,6 +1,5 @@
-import {picturesData} from './data.js';
-
 const pisturesListElement = document.querySelector('.pictures');
+let picturesData;
 
 const fragment = document.createDocumentFragment();
 const templateFragment = document.querySelector('#picture').content;
@@ -16,10 +15,11 @@ const getPicturesElement = ({id, url, likes, comments}) => {
 };
 
 const getPictureList = (images) => {
+  picturesData = images.slice();
   images.forEach((image) => {
     fragment.append(getPicturesElement(image));
   });
   pisturesListElement.append(fragment);
 };
 
-getPictureList(picturesData);
+export {getPictureList, picturesData};
