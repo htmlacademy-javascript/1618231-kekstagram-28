@@ -5,9 +5,6 @@ const loadDataFromServer = (url) => {
     .then((response) => response.json())
     .then((data) => {
       getPictureList(data);
-    })
-    .catch((error) => {
-      console.log(error);
     });
 };
 

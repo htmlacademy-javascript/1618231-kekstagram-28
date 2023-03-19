@@ -46,12 +46,14 @@ const showBigPicturePreview = (element) => {
   const bigPictureImage = bigPictureSection.querySelector('.big-picture__img img');
   const likesCount = bigPictureSection.querySelector('.likes-count');
   const socialCommentsList = bigPictureSection.querySelector('.social__comments');
+  const socialCaption = bigPictureSection.querySelector('.social__caption');
   const imageData = picturesData.find((item) => item.id === parseInt(element.dataset.picture, 10));
-  const {url, likes, comments} = imageData;
+  const {url, likes, comments, description} = imageData;
   const commentsOnPage = comments.slice(0, NUMBER_COMMENTS);
   socialCommentsList.innerHTML = '';
   bigPictureImage.src = url;
   likesCount.textContent = likes;
+  socialCaption.textContent = description;
   socialCommentsList.append(getCommentsList(commentsOnPage));
   getCommentsCountBlock(comments);
 };
