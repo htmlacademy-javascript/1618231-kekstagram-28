@@ -22,11 +22,7 @@ const pristine = new Pristine(imgUploadForm, {
 
 const isStartHashtag = (value) => {
   const hashTags = value.toLowerCase().trim().split(/\s+/);
-  if (hashTags.some((item) => item[0] !== '#')) {
-    return false;
-  } else {
-    return true;
-  }
+  return !(hashTags.some((item) => item[0] !== '#'));
 };
 
 const checkLengthField = (value) => {
@@ -36,20 +32,12 @@ const checkLengthField = (value) => {
 
 const checkLengthHashtag = (value) => {
   const hashTags = value.toLowerCase().trim().split(/\s+/);
-  if (hashTags.some((item) => item.length > MAX_LENGTH_HASHTAG)) {
-    return false;
-  } else {
-    return true;
-  }
+  return !(hashTags.some((item) => item.length > MAX_LENGTH_HASHTAG));
 };
 
 const isValidateSintax = (value) => {
   const hashTags = value.toLowerCase().trim().split(/\s+/);
-  if (hashTags.some((item) => !REGEX_SINTAX.test(item))) {
-    return false;
-  } else {
-    return true;
-  }
+  return !(hashTags.some((item) => !REGEX_SINTAX.test(item)));
 };
 
 const hasDublicationHashtag = (value) => {
@@ -97,4 +85,9 @@ imgUploadForm.addEventListener('submit', (evt) => {
   pristine.validate();
 });
 
+textHashtags.addEventListener('input', () => {
+  if (textHashtags.value === '') {
+    document.querySelector('.pristine-error').remove();
+  }
+});
 export {textHashtags, textDescription};
