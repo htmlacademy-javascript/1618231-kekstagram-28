@@ -90,4 +90,4 @@ textHashtags.addEventListener('input', () => {
     document.querySelector('.pristine-error').remove();
   }
 });
-export {textHashtags, textDescription};
+export {textHashtags, textDescription, imgUploadForm};
