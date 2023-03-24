@@ -1,11 +1,14 @@
 import { isEscape } from './utils.js';
-import { textHashtags, textDescription } from './form-validation.js';
+import { textHashtags, textDescription, imgUploadForm } from './form-validation.js';
+import { uploadImage } from './edit-picture.js';
+import { effectLevel } from './effects.js';
 
 const EMPTY_STRING = '';
 const imgUploadSection = document.querySelector('.img-upload');
 const uploadFileInput = imgUploadSection.querySelector('#upload-file');
 const imgUploadOverlay = imgUploadSection.querySelector('.img-upload__overlay');
 const upLoudCancelBtn = imgUploadSection.querySelector('#upload-cancel');
+const imgUploadPreview = imgUploadForm.querySelector('.img-upload__preview');
 
 const onDocumentKeydown = (evt) => {
   if (document.activeElement === textHashtags || document.activeElement === textDescription) {
@@ -22,6 +25,11 @@ const onDocumentKeydown = (evt) => {
 const showImageAddForm = () => {
   imgUploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  imgUploadPreview.removeAttribute('class');
+  imgUploadPreview.classList.add('img-upload__preview');
+  uploadImage.style.transform = 'scale(1)';
+  imgUploadPreview.style.filter = '';
+  effectLevel.classList.add('visually-hidden');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
