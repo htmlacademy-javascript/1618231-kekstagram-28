@@ -1,13 +1,11 @@
-import { loadDataFromServer } from './api.js';
+import { request } from './api.js';
+import {onSucces, onError} from './pictures.js';
 import './event-pictures.js';
 import './upload-file.js';
 import './form-validation.js';
-// import './edit-picture.js';
 import './effects.js';
 
-const URL = 'https://28.javascript.pages.academy/kekstagram/data';
 
-
-window.addEventListener('DOMContentLoaded', loadDataFromServer(URL));
+window.addEventListener('DOMContentLoaded', request(onSucces, onError, 'GET'));
 
 
