@@ -1,3 +1,7 @@
+import { request } from './api.js';
+import { closeImgUploadOverlay } from './upload-file.js';
+import { showAlert } from './modal.js';
+
 const START_HASHTAG = 'Хэш-тег должен начинается с символа # (решётка)';
 const LENGTH_FIELD = 'Поле должно содержать не более пяти хэш-тегов';
 const LENGTH_HASHTAG = 'Длина хэш-тега не лолжна превышать 20 символов';
@@ -7,10 +11,14 @@ const DUBLICATION_HASHTAG = 'Один и тот же хэш-тег не може
 const MAX_LENGTH_HASHTAG = 20;
 const MAX_LENGTH_DESCRIPTION = 140;
 const REGEX_SINTAX = /^#[a-zа-яё0-9]+$/;
+const SUCCESS = 'success';
+const ERROR = 'error';
 
 const imgUploadForm = document.querySelector('#upload-select-image');
 const textHashtags = imgUploadForm.querySelector('.text__hashtags');
 const textDescription = imgUploadForm.querySelector('.text__description');
+const submitButton = imgUploadForm.querySelector('#upload-submit');
+
 
 const pristine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -22,6 +30,9 @@ const pristine = new Pristine(imgUploadForm, {
 
 const isStartHashtag = (value) => {
   const hashTags = value.toLowerCase().trim().split(/\s+/);
+  if (value === '') {
+    return true;
+  }
   return !(hashTags.some((item) => item[0] !== '#'));
 };
 
@@ -37,6 +48,9 @@ const checkLengthHashtag = (value) => {
 
 const isValidateSintax = (value) => {
   const hashTags = value.toLowerCase().trim().split(/\s+/);
+  if (value === '') {
+    return true;
+  }
   return !(hashTags.some((item) => !REGEX_SINTAX.test(item)));
 };
 
@@ -46,7 +60,6 @@ const hasDublicationHashtag = (value) => {
 };
 
 const checkLengthDescription = (value) => value.length <= MAX_LENGTH_DESCRIPTION;
-
 
 pristine.addValidator(textHashtags,
   isStartHashtag,
@@ -78,16 +91,38 @@ pristine.addValidator(textDescription,
   LENGTH_DESCRIPTION
 );
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+};
+
+const unBlockSubmitButton = () => {
+  submitButton.disabled = false;
+};
+
+const onSucces = () => {
+  unBlockSubmitButton();
+  closeImgUploadOverlay();
+  showAlert(SUCCESS);
+};
+
+const onError = () => {
+  unBlockSubmitButton();
+  showAlert(ERROR);
+};
+
 imgUploadForm.addEventListener('submit', (evt) => {
-  if (document.querySelector('.pristine-error').textContent) {
-    evt.preventDefault();
+  evt.preventDefault();
+  if (!pristine.validate()) {
+    return;
   }
-  pristine.validate();
+  blockSubmitButton();
+  const data = new FormData(imgUploadForm);
+  request(onSucces, onError, 'POST', data);
 });
 
 textHashtags.addEventListener('input', () => {
   if (textHashtags.value === '') {
-    document.querySelector('.pristine-error').remove();
+    pristine.reset();
   }
 });
 export {textHashtags, textDescription, imgUploadForm};

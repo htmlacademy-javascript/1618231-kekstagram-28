@@ -1335,6 +1335,22 @@ main {
           transform: translateX(-50%);
 }
 
+.send-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 700px;
+  height: 350px;
+  top: 150px;
+  left: calc(50% - 350px);
+  background-color: #e07d7d;
+}
+
+.send-error__discription {
+  text-align: center;
+}
+
 
 /* Адаптивности чуток
    ========================================================================== */

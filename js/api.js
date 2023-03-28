@@ -1,11 +1,23 @@
-import { getPictureList } from './pictures.js';
+const Urls = {
+  GET: 'https://28.javascript.pages.academy/kekstagram/data',
+  POST: 'https://28.javascript.pages.academy/kekstagram'
+};
 
-const loadDataFromServer = (url) => {
-  fetch(url)
+const request = (onSucces, onError, method, body) => {
+  fetch(
+    Urls[method],
+    {
+      method: method,
+      body: body,
+    },
+  )
     .then((response) => response.json())
     .then((data) => {
-      getPictureList(data);
+      onSucces(data);
+    })
+    .catch(() => {
+      onError();
     });
 };
 
-export {loadDataFromServer};
+export {request};

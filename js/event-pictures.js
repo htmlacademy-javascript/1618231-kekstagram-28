@@ -35,4 +35,4 @@ picturesList.addEventListener('click', (evt) => {
 
 pictureCancelBtn.addEventListener('click', closeImageViewing);
 
-export {bigPictureSection};
+export {bigPictureSection, onDocumentKeydown};
