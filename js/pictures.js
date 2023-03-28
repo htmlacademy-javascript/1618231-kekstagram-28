@@ -1,3 +1,4 @@
+const TIME_OUT = 3000;
 const pisturesListElement = document.querySelector('.pictures');
 let picturesData;
 
@@ -36,7 +37,7 @@ const onError = () => {
   document.body.append(fragment);
   setTimeout(() => {
     document.querySelector('.send-error').remove();
-  }, 3000);
+  }, TIME_OUT);
 };
 
 export {picturesData, onSucces, onError};

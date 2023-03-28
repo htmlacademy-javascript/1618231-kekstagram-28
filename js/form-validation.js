@@ -99,7 +99,6 @@ const unBlockSubmitButton = () => {
   submitButton.disabled = false;
 };
 
-
 const onSucces = () => {
   unBlockSubmitButton();
   closeImgUploadOverlay();
@@ -111,14 +110,9 @@ const onError = () => {
   showAlert(ERROR);
 };
 
-pristine.validate();
-
 imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  const value = textHashtags.value;
-  const valueDesc = textDescription.value;
-  if (!isStartHashtag(value) || !checkLengthField(value) || !checkLengthHashtag(value) || !isValidateSintax(value)
-  || !hasDublicationHashtag(value) || !checkLengthDescription(valueDesc)) {
+  if (!pristine.validate()) {
     return;
   }
   blockSubmitButton();
