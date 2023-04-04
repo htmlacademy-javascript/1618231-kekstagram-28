@@ -4,11 +4,13 @@ import { uploadImage } from './edit-picture.js';
 import { effectLevel } from './effects.js';
 
 const EMPTY_STRING = '';
+const FILE_TYPES = ['png', 'jpg', 'jpeg'];
 const imgUploadSection = document.querySelector('.img-upload');
 const uploadFileInput = imgUploadSection.querySelector('#upload-file');
 const imgUploadOverlay = imgUploadSection.querySelector('.img-upload__overlay');
 const upLoudCancelBtn = imgUploadSection.querySelector('#upload-cancel');
 const imgUploadPreview = imgUploadForm.querySelector('.img-upload__preview');
+const imgUpload = imgUploadForm.querySelector('.img-upload__preview img');
 const effectsRadio = imgUploadForm.querySelectorAll('.effects__radio');
 
 const onDocumentKeydown = (evt) => {
@@ -50,7 +52,20 @@ const closeImgUploadOverlay = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-uploadFileInput.addEventListener('input', showImageAddForm);
+const loadFile = () => {
+  const file = uploadFileInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const isTypeFile = FILE_TYPES.some((item) => fileName.endsWith(item));
+  if (isTypeFile) {
+    imgUpload.src = URL.createObjectURL(file);
+  }
+};
+
+uploadFileInput.addEventListener('input', () => {
+  showImageAddForm();
+  loadFile();
+});
+
 upLoudCancelBtn.addEventListener('click', closeImgUploadOverlay);
 
 export {imgUploadSection, closeImgUploadOverlay, onDocumentKeydown};
