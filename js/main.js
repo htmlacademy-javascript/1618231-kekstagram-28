@@ -6,8 +6,5 @@ import './upload-file.js';
 import './form-validation.js';
 import './effects.js';
 
-
-window.addEventListener('DOMContentLoaded', () => {
-  request(onSucces, onError, 'GET');
-  showImgFilterSection();
-});
+request(onSucces, onError, 'GET');
+showImgFilterSection();

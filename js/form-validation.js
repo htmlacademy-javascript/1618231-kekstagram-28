@@ -29,11 +29,12 @@ const pristine = new Pristine(imgUploadForm, {
 });
 
 const isStartHashtag = (value) => {
-  const hashTags = value.toLowerCase().trim().split(/\s+/);
   if (value === '') {
     return true;
+  } else {
+    const hashTags = value.toLowerCase().trim().split(/\s+/);
+    return !(hashTags.some((item) => item[0] !== '#'));
   }
-  return !(hashTags.some((item) => item[0] !== '#'));
 };
 
 const checkLengthField = (value) => {
@@ -125,4 +126,4 @@ textHashtags.addEventListener('input', () => {
     pristine.reset();
   }
 });
-export {textHashtags, textDescription, imgUploadForm};
+export {textHashtags, textDescription, imgUploadForm, pristine};
