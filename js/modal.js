@@ -2,7 +2,6 @@ import { isEscape } from './utils.js';
 import { onDocumentKeydown } from './upload-file.js';
 
 const onKeydown = (evt) => {
-  evt.preventDefault();
   if (isEscape(evt)) {
     evt.preventDefault();
     if (document.querySelector('.success')) {
@@ -15,7 +14,7 @@ const onKeydown = (evt) => {
   document.removeEventListener('keydown', onKeydown);
 };
 
-const sectionAlertEvent = (section) => {
+const sectionAlertClose = (section) => {
   const button = section.querySelector('button');
   button.addEventListener('click', () => {
     section.remove();
@@ -32,7 +31,7 @@ const showAlert = (param) => {
   const section = template.cloneNode(true);
   fragment.append(section);
   document.body.append(fragment);
-  sectionAlertEvent(section);
+  sectionAlertClose(section);
   document.removeEventListener('keydown', onDocumentKeydown);
   document.addEventListener('keydown', onKeydown);
 };

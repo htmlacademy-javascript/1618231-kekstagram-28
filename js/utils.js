@@ -25,5 +25,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-
 export {isEscape, removeDomElement, shuffle, debounce};

@@ -1,6 +1,6 @@
 import { isEscape } from './utils.js';
 import { textHashtags, textDescription, imgUploadForm, pristine } from './form-validation.js';
-import { uploadImage } from './edit-picture.js';
+import { uploadImage, scaleControl } from './edit-picture.js';
 import { effectLevel } from './effects.js';
 
 const ZOOM_DEFAULT = 100;
@@ -27,16 +27,16 @@ const onDocumentKeydown = (evt) => {
 };
 
 const showImageAddForm = () => {
-  imgUploadOverlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
   imgUploadPreview.removeAttribute('class');
   imgUploadPreview.classList.add('img-upload__preview');
   uploadImage.style.transform = 'scale(1)';
   imgUploadPreview.style.filter = '';
   effectLevel.classList.add('visually-hidden');
   document.addEventListener('keydown', onDocumentKeydown);
-  imgUploadSection.querySelector('.scale__control--value').value = ZOOM_DEFAULT;
+  scaleControl.value = ZOOM_DEFAULT;
   pristine.reset();
+  imgUploadOverlay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
 };
 
 const closeImgUploadOverlay = () => {

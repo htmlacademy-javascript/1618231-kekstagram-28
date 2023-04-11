@@ -1,9 +1,12 @@
 import { picturesData } from './pictures.js';
 import { bigPictureSection } from './event-pictures.js';
 
-let NUMBER_COMMENTS = 0;
+
 const STEP = 5;
+const IMG_WIDTH = '35';
+const IMG_HEIGHT = '35';
 const commentsLoaderBtn = document.querySelector('.comments-loader');
+let numberComments;
 
 const getCommentsCountBlock = (comments) => {
   const socialCommentsItems = bigPictureSection.querySelectorAll('.social__comment');
@@ -25,32 +28,35 @@ const getCommentsCountBlock = (comments) => {
 const getCommentsList = (comments) => {
   const fragment = document.createDocumentFragment();
   comments.forEach(({avatar, message, name}) => {
-    const commentsItem = document.createRange().createContextualFragment(`
-    <li class="social__comment">
-      <img
-        class="social__picture"
-        src= ${avatar}
-        alt= "${name}"
-        width="35" height="35">
-      <p class="social__text">${message}</p>
-    </li>
-    `);
+    const commentsItem = document.createElement('li');
+    commentsItem.classList.add('social__comment');
+    const image = document.createElement('img');
+    image.classList.add('social__picture');
+    image.src = avatar;
+    image.alt = name;
+    image.width = IMG_WIDTH;
+    image.height = IMG_HEIGHT;
+    const socialText = document.createElement('p');
+    socialText.classList.add('social__text');
+    socialText.textContent = message;
+    commentsItem.append(image, socialText);
     fragment.append(commentsItem);
   });
   return fragment;
 };
 
 const showBigPicturePreview = (element) => {
-  NUMBER_COMMENTS = 5;
+  numberComments = 5;
   commentsLoaderBtn.classList.remove('hidden');
   const bigPictureImage = bigPictureSection.querySelector('.big-picture__img img');
   const likesCount = bigPictureSection.querySelector('.likes-count');
   const socialCommentsList = bigPictureSection.querySelector('.social__comments');
   const socialCaption = bigPictureSection.querySelector('.social__caption');
   const imageData = picturesData.find((item) => item.id === parseInt(element.dataset.picture, 10));
-  const {url, likes, comments, description} = imageData;
-  const commentsOnPage = comments.slice(0, NUMBER_COMMENTS);
+  const {id, url, likes, comments, description} = imageData;
+  const commentsOnPage = comments.slice(0, numberComments);
   socialCommentsList.innerHTML = '';
+  bigPictureImage.dataset.imageId = id;
   bigPictureImage.src = url;
   likesCount.textContent = likes;
   socialCaption.textContent = description;
@@ -58,19 +64,19 @@ const showBigPicturePreview = (element) => {
   getCommentsCountBlock(comments);
 };
 
-const addCommentsOnPage = (evt) => {
+const onLoadCommentBtnClick = (evt) => {
   const element = evt.target.closest('.big-picture');
-  const imagePath = element.querySelector('.big-picture__img img').src;
+  const imageId = element.querySelector('.big-picture__img img').dataset.imageId;
   const socialCommentsList = bigPictureSection.querySelector('.social__comments');
-  const imageData = picturesData.find((item) => imagePath.includes(item.url));
+  const imageData = picturesData.find((item) => item.id === parseInt(imageId, 10));
   const {comments} = imageData;
-  NUMBER_COMMENTS += STEP;
-  const commentsOnPage = comments.slice(0, NUMBER_COMMENTS);
+  numberComments += STEP;
+  const commentsOnPage = comments.slice(0, numberComments);
   socialCommentsList.innerHTML = '';
   socialCommentsList.append(getCommentsList(commentsOnPage));
   getCommentsCountBlock(comments);
 };
 
-commentsLoaderBtn.addEventListener('click', addCommentsOnPage);
+commentsLoaderBtn.addEventListener('click', onLoadCommentBtnClick);
 
 export {showBigPicturePreview};

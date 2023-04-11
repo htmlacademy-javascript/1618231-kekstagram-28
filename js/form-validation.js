@@ -6,11 +6,11 @@ const START_HASHTAG = 'Хэш-тег должен начинается с сим
 const LENGTH_FIELD = 'Поле должно содержать не более пяти хэш-тегов';
 const LENGTH_HASHTAG = 'Длина хэш-тега не лолжна превышать 20 символов';
 const LENGTH_DESCRIPTION = 'Длина комментария не должна превышать 140 символов';
-const VALIDE_SINTAX = 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации.';
-const DUBLICATION_HASHTAG = 'Один и тот же хэш-тег не может быть использован дважды';
+const VALID_SYNTAX = 'Cтрока после решётки должна состоять из букв и чисел и не может содержать пробелы, спецсимволы, символы пунктуации.';
+const DUPLICATION_HASHTAG = 'Один и тот же хэш-тег не может быть использован дважды';
 const MAX_LENGTH_HASHTAG = 20;
 const MAX_LENGTH_DESCRIPTION = 140;
-const REGEX_SINTAX = /^#[a-zа-яё0-9]+$/;
+const REGEX_SYNTAX = /^#[a-zа-яё0-9]+$/;
 const SUCCESS = 'success';
 const ERROR = 'error';
 
@@ -31,10 +31,9 @@ const pristine = new Pristine(imgUploadForm, {
 const isStartHashtag = (value) => {
   if (value === '') {
     return true;
-  } else {
-    const hashTags = value.toLowerCase().trim().split(/\s+/);
-    return !(hashTags.some((item) => item[0] !== '#'));
   }
+  const hashTags = value.toLowerCase().trim().split(/\s+/);
+  return !(hashTags.some((item) => item[0] !== '#'));
 };
 
 const checkLengthField = (value) => {
@@ -47,15 +46,15 @@ const checkLengthHashtag = (value) => {
   return !(hashTags.some((item) => item.length > MAX_LENGTH_HASHTAG));
 };
 
-const isValidateSintax = (value) => {
+const isValidateSyntax = (value) => {
   const hashTags = value.toLowerCase().trim().split(/\s+/);
   if (value === '') {
     return true;
   }
-  return !(hashTags.some((item) => !REGEX_SINTAX.test(item)));
+  return !(hashTags.some((item) => !REGEX_SYNTAX.test(item)));
 };
 
-const hasDublicationHashtag = (value) => {
+const hasDuplicationHashtag = (value) => {
   const hashTags = value.toLowerCase().trim().split(/\s+/);
   return new Set(hashTags).size === hashTags.length;
 };
@@ -78,13 +77,13 @@ pristine.addValidator(textHashtags,
 );
 
 pristine.addValidator(textHashtags,
-  isValidateSintax,
-  VALIDE_SINTAX
+  isValidateSyntax,
+  VALID_SYNTAX
 );
 
 pristine.addValidator(textHashtags,
-  hasDublicationHashtag,
-  DUBLICATION_HASHTAG
+  hasDuplicationHashtag,
+  DUPLICATION_HASHTAG
 );
 
 pristine.addValidator(textDescription,
@@ -96,18 +95,18 @@ const blockSubmitButton = () => {
   submitButton.disabled = true;
 };
 
-const unBlockSubmitButton = () => {
+const unblockSubmitButton = () => {
   submitButton.disabled = false;
 };
 
-const onSucces = () => {
-  unBlockSubmitButton();
+const onSuccess = () => {
+  unblockSubmitButton();
   closeImgUploadOverlay();
   showAlert(SUCCESS);
 };
 
 const onError = () => {
-  unBlockSubmitButton();
+  unblockSubmitButton();
   showAlert(ERROR);
 };
 
@@ -118,7 +117,7 @@ imgUploadForm.addEventListener('submit', (evt) => {
   }
   blockSubmitButton();
   const data = new FormData(imgUploadForm);
-  request(onSucces, onError, 'POST', data);
+  request(onSuccess, onError, 'POST', data);
 });
 
 textHashtags.addEventListener('input', () => {
