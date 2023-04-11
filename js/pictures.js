@@ -1,28 +1,23 @@
 import { renderPicturesList } from './filters.js';
 
 const TIME_OUT = 3000;
-let picturesData;
+const picturesData = [];
+const templateFragment = document.querySelector('#send-error').content;
+const template = templateFragment.querySelector('.send-error');
 
-const onSucces = (images) => {
-  picturesData = images.slice();
+const onSuccess = (images) => {
+  images.forEach((item) => picturesData.push(item));
   renderPicturesList(images);
 };
 
 const onError = () => {
   const fragment = document.createDocumentFragment();
-  const sendError = document.createRange().createContextualFragment(`
-  <section class="send-error">
-  <div class="send-error__inner">
-    <h2 class="send-error__title">Ошибка загрузки изображений.</h2>
-    <p class="send-error__discription">Поверьте интернет - соединение</p>
-  </div>
-</section>
-  `);
-  fragment.append(sendError);
+  const element = template.cloneNode(true);
+  fragment.append(element);
   document.body.append(fragment);
   setTimeout(() => {
     document.querySelector('.send-error').remove();
   }, TIME_OUT);
 };
 
-export {picturesData, onSucces, onError};
+export {picturesData, onSuccess, onError};

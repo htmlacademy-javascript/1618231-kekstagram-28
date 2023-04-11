@@ -6,6 +6,7 @@ const SCALE_MAX = 100;
 
 const imgUploadScale = imgUploadForm.querySelector('.img-upload__scale');
 const uploadImage = imgUploadForm.querySelector('.img-upload__preview img');
+const scaleControl = imgUploadForm.querySelector('.scale__control--value');
 
 uploadImage.style.transition = 'transform 0.5s ease';
 
@@ -16,7 +17,6 @@ const onButtonsZoomClick = (element, value) => {
 
 const onScaleControlBtnClick = (evt) => {
   const elementBtn = evt.target;
-  const scaleControl = imgUploadForm.querySelector('.scale__control--value');
   let scaleControlValue = parseInt(scaleControl.value, 10);
   if (elementBtn.classList.contains('scale__control--smaller')) {
     if (scaleControlValue > SCALE_MIN) {
@@ -34,4 +34,4 @@ const onScaleControlBtnClick = (evt) => {
 
 imgUploadScale.addEventListener('click', onScaleControlBtnClick);
 
-export {uploadImage};
+export {uploadImage, scaleControl};

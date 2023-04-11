@@ -3,8 +3,7 @@ const Urls = {
   POST: 'https://28.javascript.pages.academy/kekstagram'
 };
 
-
-const request = (onSucces, onError, method, body) => {
+const request = (onSuccess, onError, method, body) => {
   fetch(
     Urls[method],
     {
@@ -14,7 +13,7 @@ const request = (onSucces, onError, method, body) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      onSucces(data);
+      onSuccess(data);
     })
     .catch(() => {
       onError();

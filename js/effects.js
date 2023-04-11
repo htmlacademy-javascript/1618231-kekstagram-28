@@ -6,14 +6,13 @@ const EFFECT_SEPIA = 'sepia';
 const EFFECT_MARVIN = 'marvin';
 const EFFECT_PHOBOS = 'phobos';
 const EFFECT_HEAT = 'heat';
-const CLASS = 'effects__preview--';
 
 const effectLevel = imgUploadForm.querySelector('.effect-level');
 const effectLevelValue = imgUploadForm.querySelector('.effect-level__value');
 const effectLevelSlider = imgUploadForm.querySelector('.effect-level__slider');
 const effectsList = imgUploadForm.querySelector('.effects__list');
 const imgUploadPreview = imgUploadForm.querySelector('.img-upload__preview');
-const effectItems = effectsList.querySelectorAll('.effects__item');
+const effectItemsInput = effectsList.querySelectorAll('.effects__item input');
 
 noUiSlider.create(effectLevelSlider, {
   range: {
@@ -94,10 +93,8 @@ const effectsSlider = {
   }
 };
 
-const getNameEffect = (element) => {
-  const nameEffect = element.querySelector('input').id;
-  return nameEffect.replace(/effect-/, '');
-};
+const getNameEffect = (element) => element.id.replace(/effect-/, '');
+
 
 const showSlider = (effect) => {
   if (effect === EFFECT_NONE) {
@@ -133,20 +130,15 @@ const editEffect = (effect) => {
 };
 
 const onEffectButtonClick = (evt) => {
-  const element = evt.target.closest('.effects__item');
-  effectItems.forEach((item) => {
-    if (item === element) {
-      const nameEffect = getNameEffect(element);
-      const className = `${CLASS}${nameEffect}`;
-      imgUploadPreview.removeAttribute('class');
-      imgUploadPreview.classList.add('img-upload__preview', className);
-      effectsSlider[nameEffect]();
-      showSlider(nameEffect);
-      editEffect(nameEffect);
-    }
-  });
+  const element = evt.target;
+  const nameEffect = getNameEffect(element);
+  effectsSlider[nameEffect]();
+  showSlider(nameEffect);
+  editEffect(nameEffect);
 };
 
-effectsList.addEventListener('click', onEffectButtonClick);
+effectItemsInput.forEach((item) => {
+  item.addEventListener('change', onEffectButtonClick);
+});
 
 export {effectLevel};

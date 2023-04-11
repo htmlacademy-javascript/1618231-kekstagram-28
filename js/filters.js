@@ -5,11 +5,11 @@ const FILTER_DEFAULT = 'filter-default';
 const FILTER_RANDOM = 'filter-random';
 const FILTER_DISCUSSED = 'filter-discussed';
 const MAX_RANDOM_IMAGE = 10;
-const TINE_DALAY = 500;
+const TIME_DALAY = 500;
 
 const imgFilterSection = document.querySelector('.img-filters');
 const filterButtons = imgFilterSection.querySelectorAll('.img-filters__button');
-const pisturesListElement = document.querySelector('.pictures');
+const picturesList = document.querySelector('.pictures');
 const templateFragment = document.querySelector('#picture').content;
 const template = templateFragment.querySelector('.picture');
 
@@ -23,6 +23,7 @@ const getPicturesElement = ({id, url, likes, comments}) => {
   element.querySelector('.picture__img').src = url;
   element.querySelector('.picture__comments').textContent = comments.length;
   element.querySelector('.picture__likes').textContent = likes;
+  element.querySelector('.picture__img').dataset.image = id;
   element.dataset.picture = id;
   return element;
 };
@@ -32,7 +33,7 @@ const renderPicturesList = (images) => {
   images.forEach((image) => {
     fragment.append(getPicturesElement(image));
   });
-  pisturesListElement.append(fragment);
+  picturesList.append(fragment);
 };
 
 const filterDefault = () => {
@@ -68,7 +69,7 @@ const changeFilter = debounce((evt) => {
   if (button.id === FILTER_DISCUSSED) {
     filterDiscussed();
   }
-}, TINE_DALAY);
+}, TIME_DALAY);
 
 const onFilterButtonsClick = (evt) => {
   const button = evt.target.closest('button');

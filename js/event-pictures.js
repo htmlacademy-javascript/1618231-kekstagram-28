@@ -3,7 +3,7 @@ import { showBigPicturePreview } from './view-pictures.js';
 
 const picturesList = document.querySelector('.pictures');
 const bigPictureSection = document.querySelector('.big-picture');
-const pictureCancelBtn = bigPictureSection.querySelector('#picture-cancel');
+const pictureCancelBtn = bigPictureSection.querySelector('.big-picture__cancel');
 
 const onDocumentKeydown = (evt) => {
   if (isEscape(evt)) {
@@ -13,7 +13,7 @@ const onDocumentKeydown = (evt) => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const closeImageViewing = () => {
+const onBtnCloseImageClick = () => {
   bigPictureSection.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.classList.remove('modal-open');
@@ -28,11 +28,11 @@ const openImageViewing = () => {
 picturesList.addEventListener('click', (evt) => {
   const element = evt.target.closest('.picture');
   if (element) {
-    openImageViewing();
     showBigPicturePreview(element);
+    openImageViewing();
   }
 });
 
-pictureCancelBtn.addEventListener('click', closeImageViewing);
+pictureCancelBtn.addEventListener('click', onBtnCloseImageClick);
 
 export {bigPictureSection, onDocumentKeydown};
